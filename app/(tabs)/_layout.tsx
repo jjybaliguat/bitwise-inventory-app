@@ -1,45 +1,93 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-import { Platform } from 'react-native';
+import React from 'react'
+import { Tabs } from 'expo-router'
+import { Ionicons } from '@expo/vector-icons'
 
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
+const TabsLayout = () => {
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
+    <>
+      <Tabs
+        screenOptions={{
+          tabBarActiveTintColor: "#3b82f6",
+          tabBarInactiveTintColor: "#CDCDE0",
+          tabBarShowLabel: true,
+          tabBarItemStyle: {
+            marginTop: 15
           },
-          default: {},
-        }),
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          tabBarLabelStyle: {
+            fontSize: 12,
+            fontWeight: '600',
+            marginTop: 2,
+          },
+          tabBarStyle: {
+            height: 80,
+            backgroundColor: '#232533',
+            borderTopLeftRadius: 30, // Rounded edges
+            borderTopRightRadius: 30, // Rounded edges
+            position: 'absolute', // Ensures it floats
+            left: 10, // Adjust left margin
+            right: 10, // Adjust right margin
+            shadowColor: '#000', // Shadow for iOS
+            shadowOpacity: 0.1,
+            shadowRadius: 10,
+          },
+          tabBarIconStyle: {
+            marginBottom: -5,
+          },
         }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
-        }}
-      />
-    </Tabs>
-  );
+      >
+        <Tabs.Screen
+          name="home"
+          options={{
+            title: "Home",
+            headerShown: false,
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="home-outline" size={size} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="inventory"
+          options={{
+            title: "Inventory",
+            headerShown: false,
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="file-tray-stacked-outline" size={size} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="sales"
+          options={{
+            title: "Sales",
+            headerShown: false,
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="cash-outline" color={color} size={size} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="suppliers"
+          options={{
+            title: "Suppliers",
+            headerShown: false,
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="people-outline" color={color} size={size} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="users"
+          options={{
+            title: "Users",
+            headerShown: false,
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="person-add-outline" color={color} size={size} />
+            ),
+          }}
+        />
+      </Tabs>
+    </>
+  )
 }
+
+export default TabsLayout
