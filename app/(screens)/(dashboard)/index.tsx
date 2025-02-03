@@ -1,11 +1,12 @@
 import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import useSWR from 'swr';
 import { API_KEY, API_URL } from '@/constants';
 import { Sale } from '@/types/sales';
 import { formatCurrency } from '@/utils/formatCurrency';
+import { useAuth } from '@/app/context/AuthContext';
 
 const fetcher = async (url: string) => {
 
@@ -24,22 +25,21 @@ const fetcher = async (url: string) => {
 
 export default function Dashboard() {
   const {data: sales, isLoading } = useSWR(`${API_URL}/protected/sales`, fetcher)
+  const {onLogout} = useAuth()
 
   return (
-    <SafeAreaView className="flex-1 bg-primary p-4 pb-[80px]">
+    <SafeAreaView className="flex-1 p-4 pb-[80px]">
       {/* Header Section */}
       <View className="flex-row justify-between items-center mb-4">
         {/* <Image
           source={{ uri: 'https://via.placeholder.com/50' }} 
           className="w-12 h-12 rounded-full" 
         /> */}
-        <Text className='text-2xl font-bold text-white'>Bitwise</Text>
+        <View className='flex-row items-center gap-2'>
+          <Text className='text-2xl font-bold'>Bitwise</Text>
+          <Ionicons name='log-out-outline' size={30} color="red" onPress={onLogout} />
+        </View>
         <View className="flex-row items-center">
-          <View>
-            <TouchableOpacity className="mr-2 bg-secondary p-4 rounded-[16px]">
-              <Ionicons name="notifications-outline" size={24} color="black" />
-            </TouchableOpacity>
-          </View>
           <View>
             <TouchableOpacity className="mr-2 bg-secondary-200 p-4 rounded-[16px]">
               <Ionicons name="add-outline" size={28} color="black" />
@@ -68,7 +68,7 @@ export default function Dashboard() {
       </View>
       
       {/* Recent Sales */}
-      <Text className="text-lg font-bold text-white mb-2">Recent Sales</Text>
+      <Text className="text-lg font-bold  mb-2">Recent Sales</Text>
       <ScrollView>
         {sales?.map((sale: Sale, index: number) => (
           <View key={index} className="flex-row justify-between p-6 bg-white rounded-[16px] mb-2">

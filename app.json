@@ -25,6 +25,12 @@
     "plugins": [
       "expo-router",
       [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow access to the camera."
+        }
+      ],
+      [
         "expo-splash-screen",
         {
           "image": "./assets/images/splash-icon.png",
@@ -36,7 +42,8 @@
     ],
     "extra": {
       "API_URL": "https://inventory.bitwisepctrading.com/api",
-      "SECRET_KEY": "ec433db5199c2cfdd5565df3121cdbe737a1e425bbe10e6d651aba4c4e1a3894"
+      "SECRET_KEY": "ec433db5199c2cfdd5565df3121cdbe737a1e425bbe10e6d651aba4c4e1a3894",
+      "TOKEN_KEY": "ec433db5199c2cfdd5565df3121cdbe737a1e425bbe10e6d651aba4c4e1a3894"
     },
     "experiments": {
       "typedRoutes": true

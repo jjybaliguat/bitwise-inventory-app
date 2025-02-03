@@ -1,10 +1,16 @@
 import React from 'react'
-import { Tabs } from 'expo-router'
+import { Redirect, router, Tabs } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
+import AuthProvider, { useAuth } from '@/app/context/AuthContext';
+import CameraButton from '@/components/buttons/CameraButton';
 
 const TabsLayout = () => {
+  const {authState, isLoading} = useAuth()
+  if(!authState?.authenticated && isLoading) return <Redirect href="/(screens)/Login" />
+
   return (
     <>
+    <AuthProvider>
       <Tabs
         screenOptions={{
           tabBarActiveTintColor: "#3b82f6",
@@ -20,7 +26,7 @@ const TabsLayout = () => {
           },
           tabBarStyle: {
             height: 80,
-            backgroundColor: '#232533',
+            backgroundColor: '#ffff',
             borderTopLeftRadius: 30, // Rounded edges
             borderTopRightRadius: 30, // Rounded edges
             position: 'absolute', // Ensures it floats
@@ -36,7 +42,7 @@ const TabsLayout = () => {
         }}
       >
         <Tabs.Screen
-          name="home"
+          name="index"
           options={{
             title: "Home",
             headerShown: false,
@@ -56,13 +62,10 @@ const TabsLayout = () => {
           }}
         />
         <Tabs.Screen
-          name="sales"
+          name="camera"
           options={{
-            title: "Sales",
-            headerShown: false,
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="cash-outline" color={color} size={size} />
-            ),
+            title: "Barcode Scanner",
+            tabBarButton: () => <CameraButton />,
           }}
         />
         <Tabs.Screen
@@ -86,6 +89,7 @@ const TabsLayout = () => {
           }}
         />
       </Tabs>
+      </AuthProvider>
     </>
   )
 }
