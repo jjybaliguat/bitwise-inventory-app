@@ -34,34 +34,34 @@ export default function AuthProvider({children} :  any){
     const [loading, setLoading] = useState(true);
 
 
-    // useEffect(()=> {
-    //     const loadToken = async() => {
-    //         const token = await SecureStore.getItemAsync(TOKEN_KEY)
+    useEffect(()=> {
+        const loadToken = async() => {
+            const token = await SecureStore.getItemAsync(TOKEN_KEY)
+            const user: any = await SecureStore.getItemAsync("sessionUser")
+            if(token && user){
+                setAuthState({
+                    token,
+                    authenticated: true,
+                    user: JSON.parse(user)
+                })
+                setLoading(false)
+            }else{
+                setAuthState({
+                    token :  null,
+                    authenticated: false,
+                    user: null
+                })
+                const inProtectedRoute = segments[0] === "(screens)" && segments[1] === "(dashboard)";
+                    // console.log(inProtectedRoute)
 
-    //         if(token){
-    //             setAuthState({
-    //                 token,
-    //                 authenticated: true,
-    //                 user: authState.user
-    //             })
-    //             setLoading(false)
-    //         }else{
-    //             setAuthState({
-    //                 token :  null,
-    //                 authenticated: false,
-    //                 user: null
-    //             })
-    //             const inProtectedRoute = segments[0] === "(screens)" && segments[1] === "(dashboard)";
-    //                 // console.log(inProtectedRoute)
+                if (!authState.authenticated && inProtectedRoute) {
+                router.replace("/(screens)/Login"); // Redirect to login
+                }
+            }
+        }
 
-    //             if (!authState.authenticated && inProtectedRoute) {
-    //             router.replace("/(screens)/Login"); // Redirect to login
-    //             }
-    //         }
-    //     }
-
-    //     loadToken()
-    // }, [])
+        loadToken()
+    }, [])
 
     useEffect(() => {
         if (authState.token === null) return; // Prevent unnecessary redirects
@@ -86,8 +86,9 @@ export default function AuthProvider({children} :  any){
                     user: response.data.user
                 })
                 await SecureStore.setItemAsync(TOKEN_KEY, response.data.token)
+                await SecureStore.setItemAsync("sessionUser", JSON.stringify(response.data.user))
                 axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`
-                router.replace("/(screens)/(dashboard)")
+                router.replace("/(screens)/(dashboard)/(tabs)")
             }else{
                 setAuthState({
                     token: null,
@@ -107,6 +108,7 @@ export default function AuthProvider({children} :  any){
     const logout = async () => {
         try {
             await SecureStore.deleteItemAsync(TOKEN_KEY)
+            await SecureStore.deleteItemAsync("sessionUser");
             axios.defaults.headers.common['Authorization'] = ''
             setAuthState({
                 token: null,

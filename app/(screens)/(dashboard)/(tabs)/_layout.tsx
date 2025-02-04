@@ -13,7 +13,7 @@ const TabsLayout = () => {
     <AuthProvider>
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: "#3b82f6",
+          tabBarActiveTintColor: "#04988f",
           tabBarInactiveTintColor: "#CDCDE0",
           tabBarShowLabel: true,
           tabBarItemStyle: {
@@ -26,7 +26,7 @@ const TabsLayout = () => {
           },
           tabBarStyle: {
             height: 80,
-            backgroundColor: '#ffff',
+            backgroundColor: '#161622',
             borderTopLeftRadius: 30, // Rounded edges
             borderTopRightRadius: 30, // Rounded edges
             position: 'absolute', // Ensures it floats

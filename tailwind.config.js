@@ -2,6 +2,7 @@
 module.exports = {
   content: [
     "./app/**/*.{js,jsx,ts,tsx}", // Ensure Expo Router pages are included
+    "./components/**/*.{js,jsx,ts,tsx}",
   ],
   presets: [require("nativewind/preset")],
   theme: {

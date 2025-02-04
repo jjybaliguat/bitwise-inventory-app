@@ -8,7 +8,7 @@ import 'react-native-reanimated';
 import "../global.css";
 
 import { useColorScheme } from '@/hooks/useColorScheme';
-import Dashboard from './(dashboard)';
+import Dashboard from './(dashboard)/(tabs)';
 import AuthProvider, { useAuth } from '../context/AuthContext';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -50,10 +50,17 @@ export default function RootLayout() {
   return (
     <AuthProvider>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack>
+        <Stack
+          screenOptions={{
+            headerStyle: { backgroundColor: "#034b44" }, // Blue header
+            headerTintColor: "#fff", // White text/icons
+            headerTitleStyle: { fontWeight: "bold" },
+          }}
+        >
           {/* {authState?.authenticated? 
         } */}
-        <Stack.Screen name="(dashboard)" options={{ headerShown: false }} /> :
+        <Stack.Screen name="(dashboard)/(tabs)" options={{ headerShown: false }} /> 
+        <Stack.Screen name="(dashboard)/[code]" options={{ headerShown: false }} /> 
         <Stack.Screen name="Login" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
         </Stack>

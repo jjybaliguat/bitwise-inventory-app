@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, Image, TextInput, Alert } from 'react-native'
 import React, { useState } from 'react'
-import { Link, router } from 'expo-router'
+import { Link, Redirect, router } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import images from '@/constants/images'
@@ -15,6 +15,9 @@ const Login = () => {
     password: ""
   })
   const [loading, setLoading] = useState(false)
+
+  const {authState, isLoading} = useAuth()
+    if(authState?.authenticated && !isLoading) return <Redirect href="/(screens)/(dashboard)" />
 
   const handleLogin = async () => {
     try {

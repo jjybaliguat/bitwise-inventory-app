@@ -18,7 +18,7 @@ export default function CameraScreen() {
 
   const handleBarcodeScanned = ({ type, data } : any) => {
     setScanned(true);
-    router.replace({
+    router.push({
       pathname: "/(screens)/(dashboard)/[code]",
       params: { code: data },
     }); 

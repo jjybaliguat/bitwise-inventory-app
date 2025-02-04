@@ -13,7 +13,7 @@ export default function CameraButton() {
         top: -30, // Moves the button above the tab bar
         left: "50%",
         marginLeft: -35, // Centering the button
-        backgroundColor: "#161622",
+        backgroundColor: "#034b44",
         width: 70,
         height: 70,
         borderRadius: 35,
